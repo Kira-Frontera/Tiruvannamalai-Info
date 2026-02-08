@@ -1,0 +1,23 @@
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Frame-Options "DENY"
+    Header set X-Content-Type-Options "nosniff"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# Disable Directory Browsing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "(\.(json|js|css|html|htaccess|md|txt)$|^manifest\.json$)">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# Specifically protect config files (if any existed, like .env)
+<Files ".env">
+    Order allow,deny
+    Deny from all
+</Files>
